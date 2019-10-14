@@ -3,26 +3,25 @@ package Servers;
 import java.util.ArrayList;
 
 public class Scheduler {
-    private ArrayList<Server> servers;                              // Lista de servere
-    private int goodServer = 0;                                     // Indexul serverului cu waitingTime minim
-    private int min;
+    private ArrayList<Server> servers;
+    private int goodServer = 0;                                     // The index of the server with minim waiting time
 
     public Scheduler() {
         servers = new ArrayList<>();
     }
 
-    public void addServer(Server server){                           // Adauga un nou server in lista
+    public void addServer(Server server){
         servers.add(server);
     }
 
-    public void runServers(){                                       // Porneste serverele
+    public void runServers(){
         for (Server server: servers) {
             server.getThread().start();
         }
     }
 
-    private void findGoodServer(){                                  // Cauta serverul cu waitingTime minim
-        min = 1000000;
+    private void findGoodServer(){                                  // Search the server with minim waiting time
+        int min = 1000000;
         for (Server server : servers){
             if (server.getWaitingPeriod().get() < min){
                 min = server.getWaitingPeriod().get();
@@ -31,7 +30,7 @@ public class Scheduler {
         }
     }
 
-    public void dispatchTask(Task task){                            // Adauga un task la serverul de pe pozitia goodServer
+    public void dispatchTask(Task task){
         if (task != null) {
             if (servers.size() != 0) {
                 findGoodServer();
@@ -40,7 +39,7 @@ public class Scheduler {
         }
     }
 
-    public boolean freeServers(){                                   // Verifica daca toate serverele sunt goale
+    public boolean freeServers(){                                   // Check if all servers are empty
         for (Server server : servers){
             if (server.getTasks().size() != 0){
                 return true;
@@ -51,5 +50,5 @@ public class Scheduler {
 
     public ArrayList<Server> getServers() {
         return servers;
-    }       // Returneaza lista de servere
+    }
 }
