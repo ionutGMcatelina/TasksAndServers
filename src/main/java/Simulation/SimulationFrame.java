@@ -4,38 +4,38 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class SimulationFrame  extends JFrame {
+class SimulationFrame  extends JFrame {
     private JPanel content = new JPanel();
 
-    // panoul cu servere
-    private JTextField[] servers;                                               // Cate un JTextField pentru fiecare server
+    // The panel with servers
+    private JTextField[] servers;
     private JTextArea status = new JTextArea("STATUS\n", 30, 30);
-    private JTextArea statistics = new JTextArea("STATISTICI\n", 30, 30);
+    private JTextArea statistics = new JTextArea("STATISTICS\n", 30, 30);
 
     private JButton start = new JButton("START");
     private JButton reset = new JButton("RESET");
 
-    private JLabel title = new JLabel("Simulare distribuire task-uri");
-    private JLabel time = new JLabel("Time: ");                            // Timpul simularii
-    private JLabel[] serversLabel;                                              // Cate un JLabel pentru fiecare server
-    private JPanel statusLable = new JPanel();
+    private JLabel title = new JLabel("Tasks distribution");
+    private JLabel time = new JLabel("Time: ");
+    private JLabel[] serversLabel;
+    private JPanel statusLabel = new JPanel();
 
-    // panoul pentru introducerea datelor
-    private JTextField nrServere = new JTextField(15);         // Pentru datele introduse de utilizator
+    // The panel for input
+    private JTextField nrServers = new JTextField(15);
     private JTextField timeLimit = new JTextField(15);
     private JTextField maxProcessingTime = new JTextField(15);
     private JTextField minProcessingTime = new JTextField( 15);
     private JTextField numberOfTasks = new JTextField(15);
 
-    SimulationFrame(){                                                           // Se construieste panoul pentru introducerea datelor
-        JLabel nrServereLabel = new JLabel("Numar servere: ");
-        JLabel timeLimitLabel = new JLabel("Timpul simularii: ");
-        JLabel maxProcessingTimeLabel = new JLabel("Timpul maxim de procesare: ");
-        JLabel minProcessingTimeLabel = new JLabel("Timpul minim de procecsare: ");
-        JLabel numberOfTasksLabel = new JLabel("Numar task-uri: ");
+    SimulationFrame(){
+        JLabel nrServersLabel = new JLabel("Number of servers: ");
+        JLabel timeLimitLabel = new JLabel("Simulation time: ");
+        JLabel maxProcessingTimeLabel = new JLabel("Maxim processing time: ");
+        JLabel minProcessingTimeLabel = new JLabel("Minim processing time: ");
+        JLabel numberOfTasksLabel = new JLabel("Number of tasks: ");
 
-        JLabel title2 = new JLabel("Simulare distribuire task-uri");
-        JLabel input = new JLabel("Introduceti datele");
+        JLabel title2 = new JLabel("Tasks distribution");
+        JLabel input = new JLabel("Complete the fields");
 
         JPanel buttonsFrame = new JPanel();
         buttonsFrame.add(start);
@@ -56,8 +56,8 @@ public class SimulationFrame  extends JFrame {
         input.setFont(new Font( "Calibri", Font.PLAIN, 25));
         input.setForeground(Color.LIGHT_GRAY);
 
-        nrServere.setBackground(new Color(173,216,230));
-        nrServere.setFont(new Font( "Calibri", Font.PLAIN, 20));
+        nrServers.setBackground(new Color(173,216,230));
+        nrServers.setFont(new Font( "Calibri", Font.PLAIN, 20));
         timeLimit.setBackground(new Color(173,216,230));
         timeLimit.setFont(new Font( "Calibri", Font.PLAIN, 20));
         maxProcessingTime.setBackground(new Color(173,216,230));
@@ -67,8 +67,8 @@ public class SimulationFrame  extends JFrame {
         numberOfTasks.setBackground(new Color(173,216,230));
         numberOfTasks.setFont(new Font( "Calibri", Font.PLAIN, 20));
 
-        nrServereLabel.setForeground(Color.LIGHT_GRAY);
-        nrServereLabel.setFont(new Font( "Calibri", Font.PLAIN, 25));
+        nrServersLabel.setForeground(Color.LIGHT_GRAY);
+        nrServersLabel.setFont(new Font( "Calibri", Font.PLAIN, 25));
         timeLimitLabel.setForeground(Color.LIGHT_GRAY);
         timeLimitLabel.setFont(new Font( "Calibri", Font.PLAIN, 25));
         maxProcessingTimeLabel.setForeground(Color.LIGHT_GRAY);
@@ -78,8 +78,8 @@ public class SimulationFrame  extends JFrame {
         numberOfTasksLabel.setForeground(Color.LIGHT_GRAY);
         numberOfTasksLabel.setFont(new Font( "Calibri", Font.PLAIN, 25));
 
-        inputContent.add(nrServereLabel);
-        inputContent.add(nrServere);
+        inputContent.add(nrServersLabel);
+        inputContent.add(nrServers);
         inputContent.add(maxProcessingTimeLabel);
         inputContent.add(maxProcessingTime);
         inputContent.add(minProcessingTimeLabel);
@@ -108,7 +108,7 @@ public class SimulationFrame  extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    void setServersText(int i, String s, String nr){                                // Actualizeaza campurile pentru servere
+    void setServersText(int i, String s, String nr){
         servers[i].setText(s);
         serversLabel[i].setText(nr);
     }
@@ -125,12 +125,12 @@ public class SimulationFrame  extends JFrame {
         return time;
     }
 
-    void setStatusText(String statusText){                                          // Adauga text la status
+    void setStatusText(String statusText){ 
         status.setText(status.getText() + statusText);
     }
 
-    void changeContentPane(){                                                       // Creeaza panoul pentru simulare
-        int nrS = Integer.parseInt(nrServere.getText());
+    void changeContentPane(){
+        int nrS = Integer.parseInt(nrServers.getText());
         servers = new JTextField[nrS];
         serversLabel = new JLabel[nrS];
 
@@ -164,8 +164,8 @@ public class SimulationFrame  extends JFrame {
         statistics.setBackground(new Color(173,216,230));
         statistics.setEditable(false);
         statistics.setFont(new Font( "Calibri", Font.PLAIN, 15));
-        statusLable.setOpaque(false);
-        statusLable.setForeground(Color.LIGHT_GRAY);
+        statusLabel.setOpaque(false);
+        statusLabel.setForeground(Color.LIGHT_GRAY);
 
         for (int i = 0; i < nrS; i++){
             serversFrame.add(serversLabel[i]);
@@ -175,27 +175,27 @@ public class SimulationFrame  extends JFrame {
         }
         serversFrame.setLayout(new BoxLayout(serversFrame, BoxLayout.Y_AXIS));
 
-        statusLable.add(serversFrame);
-        statusLable.add(Box.createRigidArea(new Dimension(20, 0)));
-        statusLable.add(scrollPane);
-        statusLable.add(Box.createRigidArea(new Dimension(20, 0)));
-        statusLable.add(statistics);
+        statusLabel.add(serversFrame);
+        statusLabel.add(Box.createRigidArea(new Dimension(20, 0)));
+        statusLabel.add(scrollPane);
+        statusLabel.add(Box.createRigidArea(new Dimension(20, 0)));
+        statusLabel.add(statistics);
 
         content.add(Box.createRigidArea(new Dimension(0, 20)));
         content.add(title);
         content.add(Box.createRigidArea(new Dimension(0, 20)));
         content.add(time);
         content.add(Box.createRigidArea(new Dimension(0, 20)));
-        content.add(statusLable);
+        content.add(statusLabel);
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setOpaque(false);
 
-        this.setContentPane(content);                                           // Seteaza acest panou ca principal
+        this.setContentPane(content);
         this.revalidate();
     }
 
-    JTextField getNrServere() {
-        return nrServere;
+    JTextField getNrServers() {
+        return nrServers;
     }
 
     JTextField getTimeLimit() {
@@ -214,11 +214,11 @@ public class SimulationFrame  extends JFrame {
         return numberOfTasks;
     }
 
-    void setStatisticsText(String statisticsText){                              // Adauga text la statistici
+    void setStatisticsText(String statisticsText){                
         statistics.setText(statistics.getText() + statisticsText);
     }
 
-    void showJOptionPane(String message){                                       // Deschide o fereastra de eroare cu mesajul trimis ca parametru
+    void showJOptionPane(String message){               
         JOptionPane.showMessageDialog(this,message);
     }
 
