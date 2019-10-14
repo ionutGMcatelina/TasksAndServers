@@ -1,9 +1,9 @@
 package Servers;
 
 public class Task implements Comparable{
-    private String name;                                        // Numele task-ului
-    private int arriveTime;                                     // Timpul de sosire
-    private int period;                                         // Timpul de procesare
+    private String name;
+    private int arriveTime;
+    private int period;
 
     public Task(String name, int arriveTime, int period){
         this.name = name;
