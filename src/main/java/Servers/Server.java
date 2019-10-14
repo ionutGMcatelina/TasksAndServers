@@ -7,34 +7,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.lang.Thread.sleep;
 
 public class Server implements Runnable{
-    private BlockingQueue<Task> tasks;                                 // Coada de task-uri
-    private AtomicInteger waitingPeriod;                               // Perioada totala de asteptare
-    private static boolean over = false;                               // Boolean folosit pentru a opri serverul
-    private Thread thread = new Thread(this);                   // Thread pentru server
+    private BlockingQueue<Task> tasks;   
+    private AtomicInteger waitingPeriod;                               // Total waiting time
+    private static boolean over = false;                               // Used to stop the servers
+    private Thread thread = new Thread(this);                 
 
     public Server(AtomicInteger waitingPeriod){
         tasks = new ArrayBlockingQueue<>(20);
         this.waitingPeriod = waitingPeriod;
     }
 
-    void addTask(Task newTask){                                         // Adauga un task in coada
+    void addTask(Task newTask){                                         // It adds a task in the queue
         tasks.add(newTask);
         waitingPeriod.set(waitingPeriod.get() + newTask.getPeriod());
     }
 
     public void run() {
         try {
-            while (!over) {                                             // Serverul merge cat timp over este fals
-                if (tasks.size() != 0) {                                // Daca mai sunt task-uri in coada
-                    int x = 0;                                          // Merg cu x pana la perioada primului element din coada
+            while (!over) { 
+                if (tasks.size() != 0) {       
+                    int x = 0;                 
                     while (x < tasks.element().getPeriod()) {
-                        sleep(1000);                              // Pun thread-ul pe sleep pentru o secunda
-                        waitingPeriod.set(waitingPeriod.get() - 1);     // Decrementez timpul de asteptare al serverului
+                        sleep(1000);              
+                        waitingPeriod.set(waitingPeriod.get() - 1);    
                         x++;
                     }
-                    tasks.take();                                       // Sterg primul element din coada
+                    tasks.take();                             
                 } else {
-                    sleep(1000);                                  // Altfel pun serverul pe sleep pentru o secunda
+                    sleep(1000);                          
                 }
             }
         } catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class Server implements Runnable{
         return tasks;
     }
 
-    public String getStringTasks() {                                    // Returneaza numele tuturor task-urilor
+    public String getStringTasks() {              
         String s = "";
         for (Task task : tasks){
             s += task.getName() + " ";
@@ -58,7 +58,7 @@ public class Server implements Runnable{
         return waitingPeriod;
     }
 
-    public static void setOver(boolean over) {                          // Modifica over, pentru a opri serverele
+    public static void setOver(boolean over) {
         Server.over = over;
     }
 
